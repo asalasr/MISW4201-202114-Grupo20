@@ -142,3 +142,20 @@ class VistaAlbum(Resource):
         db.session.commit()
         return '',204
 
+class VistaUsuarios(Resource):
+    
+   def post(self):
+        
+        arrayUsuarios = request.json["lista"]
+        usuarioNoExist = []
+        for user in arrayUsuarios:
+            usuario = Usuario.query.filter(Usuario.nombre == user).first()
+            if usuario is None:
+                usuarioNoExist.append(user)
+        db.session.commit()
+        
+        if usuarioNoExist != []:
+            return {"mensaje":"Error","listaNoExiste":usuarioNoExist}, 404
+        else:
+            return {"mensaje":"successes"},202
+    
