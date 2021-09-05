@@ -143,8 +143,25 @@ class VistaAlbum(Resource):
         db.session.commit()
         return '',204
 
+
 class VistaUsuario(Resource):
     
     @jwt_required()
     def get(self, id_usuario):
         return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
+
+   def post(self):
+        
+        arrayUsuarios = request.json["lista"]
+        usuarioNoExist = []
+        for user in arrayUsuarios:
+            usuario = Usuario.query.filter(Usuario.nombre == user).first()
+            if usuario is None:
+                usuarioNoExist.append(user)
+        db.session.commit()
+        
+        if usuarioNoExist != []:
+            return {"mensaje":"Error","listaNoExiste":usuarioNoExist}, 404
+        else:
+            return {"mensaje":"successes"},202
+    
