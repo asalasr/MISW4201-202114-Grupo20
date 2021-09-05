@@ -150,7 +150,7 @@ class VistaUsuario(Resource):
     def get(self, id_usuario):
         return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
 
-   def post(self):
+    def post(self):
         
         arrayUsuarios = request.json["lista"]
         usuarioNoExist = []
