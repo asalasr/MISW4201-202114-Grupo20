@@ -78,6 +78,7 @@ class VistaLogIn(Resource):
             token_de_acceso = create_access_token(identity = usuario.id)
             return {"mensaje":"Inicio de sesión exitoso", "token": token_de_acceso}
 
+
 class VistaAlbumsUsuario(Resource):
 
     @jwt_required()
@@ -142,8 +143,13 @@ class VistaAlbum(Resource):
         db.session.commit()
         return '',204
 
-class VistaUsuarios(Resource):
+
+class VistaUsuario(Resource):
     
+    @jwt_required()
+    def get(self, id_usuario):
+        return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
+
    def post(self):
         
         arrayUsuarios = request.json["lista"]

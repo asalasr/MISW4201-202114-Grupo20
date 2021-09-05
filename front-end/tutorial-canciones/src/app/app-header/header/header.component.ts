@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UsuarioService } from 'src/app/usuario/usuario.service';
+import { Usuario } from 'src/app/usuario/usuario';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-header',
@@ -8,15 +11,23 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+  usuario : Usuario;
+  userLogin: String ;
+
   constructor(
     private routerPath: Router,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private toastr: ToastrService,
+    private usuarioService: UsuarioService,
     ) { }
 
-  ngOnInit(): void {  }
+  ngOnInit(): void {
+    this.buscarNombreUsuario();
+   }
 
   goTo(menu: string){
     const userId = parseInt(this.router.snapshot.params.userId)
+
     const token = this.router.snapshot.params.userToken
     if(menu === "logIn"){
       this.routerPath.navigate([`/`])
@@ -27,6 +38,48 @@ export class HeaderComponent implements OnInit {
     else{
       this.routerPath.navigate([`/canciones/${userId}/${token}`])
     }
+  }
+
+  buscarNombreUsuario(){
+    const userId = parseInt(this.router.snapshot.params.userId)
+    const token = this.router.snapshot.params.userToken
+    console.log("usuario.userId="+this.router.snapshot.params.userId);
+
+    this.usuarioService.getUser(userId,token)
+    .subscribe(usuario => {
+      this.usuario = usuario;
+
+      console.log(typeof this.usuario);
+      console.log( this.usuario);
+
+      console.log(this.usuario.nombre);
+      //console.log(this.usuario[0].nombre);
+      this.userLogin = this.usuario.nombre;
+
+      console.log("hay vamos" + this.userLogin);
+
+      console.log("si se pudo");
+    },
+    error => {
+      console.log(error)
+      if(error.statusText === "UNAUTHORIZED"){
+        this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+      }
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      }
+      else{
+        this.showError("Ha ocurrido un error. " + error.message)
+      }
+    })
+  }
+
+  showError(error: string){
+    this.toastr.error(error, "Error de autenticación")
+  }
+
+  showWarning(warning: string){
+    this.toastr.warning(warning, "Error de autenticación")
   }
 
 }
