@@ -13,7 +13,7 @@ albumes_canciones = db.Table('album_cancion',
 
 
 class Compartida_cancion(db.Model):
-    cancion_id = db.Column( db.Integer, db.ForeignKey('cancion.id'), primary_key = True),
+    cancion_id = db.Column( db.Integer, db.ForeignKey('cancion.id'), primary_key = True)
     usuario_id = db.Column( db.Integer, db.ForeignKey('usuario.id'), primary_key = True)
     
 
