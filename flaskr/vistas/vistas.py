@@ -3,7 +3,7 @@ from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album,
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
-
+import sys
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
@@ -182,15 +182,23 @@ class VistaCompartirCancion(Resource):
                 arrayUsuariosId.append(usuario)
 
         if usuarioNoExist != []:
-            return {"mensaje":"Error","listaNoExiste":usuarioNoExist}, 404
+            return {"mensaje":"Error usuario no existe","listaNoExiste":usuarioNoExist}, 404
         else:
              for user in arrayUsuariosId:
                 try:
-                    nueva_compartida = Compartida_cancion(cancion_id=id_cancion, usuario_id=user.id)
-                    db.session.add(nueva_compartida)
-                    db.session.commit()
-                except:
-                    print("Repetida, ignorar")
+                   
+                    compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==id_cancion, Compartida_cancion.usuario_id==user.id).first()
+                    if compartida is None:
+                       
+                        nueva_compartida = Compartida_cancion(cancion_id=id_cancion, usuario_id=user.id)
+                        db.session.add(nueva_compartida)
+                        db.session.commit()
+                        
+                    
+                except Exception:
+                    e = sys.exc_info()[1]
+                    print(e.args[0])
+                    return {"mensaje":"Error", "error":e.args[0]}, 404
 
         return {"mensaje":"successes"},202
 
