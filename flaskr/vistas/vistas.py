@@ -1,12 +1,14 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
+import sys
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
+
 
 
 class VistaCanciones(Resource):
@@ -31,6 +33,7 @@ class VistaCancion(Resource):
         cancion.minutos = request.json.get("minutos",cancion.minutos)
         cancion.segundos = request.json.get("segundos",cancion.segundos)
         cancion.interprete = request.json.get("interprete",cancion.interprete)
+        cancion.usuario = request.json.get("usuario",cancion.usuario)
         db.session.commit()
         return cancion_schema.dump(cancion)
 
@@ -143,15 +146,14 @@ class VistaAlbum(Resource):
         db.session.commit()
         return '',204
 
-
-class VistaUsuario(Resource):
-    
+class VistaUsuarioData(Resource):
     @jwt_required()
     def get(self, id_usuario):
         return usuario_schema.dump(Usuario.query.get_or_404(id_usuario))
 
+class VistaUsuario(Resource):
+    
     def post(self):
-        
         arrayUsuarios = request.json["lista"]
         usuarioNoExist = []
         for user in arrayUsuarios:
@@ -165,3 +167,70 @@ class VistaUsuario(Resource):
         else:
             return {"mensaje":"successes"},202
     
+
+class VistaCompartirCancion(Resource):
+ 
+    def post(self):
+        id_cancion = request.json["id_cancion"]
+        arrayUsuarios = request.json["lista_usuarios"]
+        arrayUsuariosId = []
+        usuarioNoExist = []
+        for user in arrayUsuarios:
+            usuario = Usuario.query.filter(Usuario.nombre == user).first()
+            if usuario is None:
+                usuarioNoExist.append(user)
+            else:
+                arrayUsuariosId.append(usuario)
+
+        if usuarioNoExist != []:
+            return {"mensaje":"Error","listaNoExiste":usuarioNoExist}, 404
+        else:
+             for user in arrayUsuariosId:
+                try:
+                    compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==id_cancion, Compartida_cancion.usuario_id==user.id).first()
+                    
+                    if compartida is None:
+                       
+                        nueva_compartida = Compartida_cancion(cancion_id=id_cancion, usuario_id=user.id)
+                        db.session.add(nueva_compartida)
+                        db.session.commit()
+                   
+                except:
+                    print("Repetida, ignorar")
+
+        return {"mensaje":"successes"},202
+
+class VistaCompartirAlbum(Resource):
+     
+    def post(self):
+        id_album = request.json["id_album"]
+        arrayUsuarios = request.json["lista_usuarios"]
+        arrayUsuariosId = []
+        usuarioNoExist = []
+        for user in arrayUsuarios:
+            usuario = Usuario.query.filter(Usuario.nombre == user).first()
+            if usuario is None:
+                usuarioNoExist.append(user)
+            else:
+                arrayUsuariosId.append(usuario)
+
+        if usuarioNoExist != []:
+            return {"mensaje":"Error usuario no existe","listaNoExiste":usuarioNoExist}, 404
+        else:
+             for user in arrayUsuariosId:
+                try:
+                   
+                    compartida = Compartida_album.query.filter(Compartida_album.album_id==id_album, Compartida_album.usuario_id==user.id).first()
+                    if compartida is None:
+                       
+                        nueva_compartida = Compartida_album(album_id=id_album, usuario_id=user.id)
+                        db.session.add(nueva_compartida)
+                        db.session.commit()
+                        
+                    
+                except Exception:
+                    e = sys.exc_info()[1]
+                    print(e.args[0])
+                    return {"mensaje":"Error", "error":e.args[0]}, 404
+
+        return {"mensaje":"successes"},202     
