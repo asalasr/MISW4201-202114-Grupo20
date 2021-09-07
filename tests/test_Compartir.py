@@ -11,8 +11,13 @@ class test_Compartir(unittest.TestCase):
         nuevo_usuario = Usuario(nombre="ELadminTest", contrasena="xxx7632xxa3199930")
         db.session.add(nuevo_usuario)
         db.session.commit()
+        nuevo_usuario2 = Usuario(nombre="ELadminTestCompartir", contrasena="xxx7632xxa3199930")
+        db.session.add(nuevo_usuario2)
+        db.session.commit()
         self.userId = nuevo_usuario.id
-        self.userName = "ELadminTest"
+        self.userIdCompartir = nuevo_usuario2.id
+        self.userName = "ELadminTestCompartir"
+
         token_de_acceso = create_access_token(identity = nuevo_usuario.id)
         self.token = token_de_acceso
         
@@ -55,7 +60,9 @@ class test_Compartir(unittest.TestCase):
         
         self.assertEqual("successes", response.json['mensaje'])
         self.assertEqual(202, response.status_code)
-        compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==nueva_cancion.id, Compartida_cancion.usuario_id==self.userId).first()
+
+        compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==nueva_cancion.id, Compartida_cancion.usuario_id==self.userIdCompartir).first()
+
         if compartida is None:
             self.assertEqual(1, 0)
         else:
@@ -63,9 +70,38 @@ class test_Compartir(unittest.TestCase):
             db.session.commit()
             db.session.delete(nueva_cancion)
             db.session.commit()
+
+
+    def test_compartirAlbum(self):
+        nuevo_Album = Album(titulo="titulo8885446", anio=2021, descripcion="interprete88879993dc222", medio="CD")
+        db.session.add(nuevo_Album)
+        db.session.commit()
         
+        payload = json.dumps({
+                "id_album": nuevo_Album.id,
+                "lista_usuarios": [self.userName]
+            })
+
+        response = self.app.post('/album/compartir', headers={"Content-Type": "application/json", 'Authorization': 'Bearer '+ self.token}, data=payload)
+        
+        self.assertEqual("successes", response.json['mensaje'])
+        self.assertEqual(202, response.status_code)
+        compartida = Compartida_album.query.filter(Compartida_album.album_id==nuevo_Album.id, Compartida_album.usuario_id==self.userIdCompartir).first()
+        if compartida is None:
+            self.assertEqual(1, 0)
+        else:
+            db.session.delete(compartida)
+            db.session.commit()
+            db.session.delete(nuevo_Album)
+            db.session.commit()
+
+
     
     def tearDown(self):
         user = Usuario.query.get_or_404(self.userId)
         db.session.delete(user)
+        db.session.commit()
+        user = Usuario.query.get_or_404(self.userIdCompartir)
+        db.session.delete(user)
+
         db.session.commit()
