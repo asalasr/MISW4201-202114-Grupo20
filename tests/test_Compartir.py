@@ -23,7 +23,7 @@ class test_Compartir(unittest.TestCase):
         })
 
         response = self.app.post('/usuarios/lista', headers={"Content-Type": "application/json"}, data=payload)
-        print(response,response.status_code)
+        
         
         self.assertEqual("Error", response.json['mensaje'])
         self.assertEqual(3, len(response.json['listaNoExiste']))
@@ -37,7 +37,7 @@ class test_Compartir(unittest.TestCase):
         })
 
         response = self.app.post('/usuarios/lista', headers={"Content-Type": "application/json"}, data=payload)
-        print(response,response.status_code)
+        
         self.assertEqual("successes", response.json['mensaje'])
         self.assertEqual(202, response.status_code)
 
@@ -52,7 +52,7 @@ class test_Compartir(unittest.TestCase):
             })
 
         response = self.app.post('/cancion/compartir', headers={"Content-Type": "application/json", 'Authorization': 'Bearer '+ self.token}, data=payload)
-        print(response,response.status_code)
+        
         self.assertEqual("successes", response.json['mensaje'])
         self.assertEqual(202, response.status_code)
         compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==nueva_cancion.id, Compartida_cancion.usuario_id==self.userId).first()
