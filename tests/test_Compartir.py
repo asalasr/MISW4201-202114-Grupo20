@@ -17,6 +17,7 @@ class test_Compartir(unittest.TestCase):
         self.userId = nuevo_usuario.id
         self.userIdCompartir = nuevo_usuario2.id
         self.userName = "ELadminTestCompartir"
+
         token_de_acceso = create_access_token(identity = nuevo_usuario.id)
         self.token = token_de_acceso
         
@@ -59,7 +60,9 @@ class test_Compartir(unittest.TestCase):
         
         self.assertEqual("successes", response.json['mensaje'])
         self.assertEqual(202, response.status_code)
+
         compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==nueva_cancion.id, Compartida_cancion.usuario_id==self.userIdCompartir).first()
+
         if compartida is None:
             self.assertEqual(1, 0)
         else:
@@ -67,6 +70,7 @@ class test_Compartir(unittest.TestCase):
             db.session.commit()
             db.session.delete(nueva_cancion)
             db.session.commit()
+
 
     def test_compartirAlbum(self):
         nuevo_Album = Album(titulo="titulo8885446", anio=2021, descripcion="interprete88879993dc222", medio="CD")
@@ -91,6 +95,7 @@ class test_Compartir(unittest.TestCase):
             db.session.delete(nuevo_Album)
             db.session.commit()
 
+
     
     def tearDown(self):
         user = Usuario.query.get_or_404(self.userId)
@@ -98,4 +103,5 @@ class test_Compartir(unittest.TestCase):
         db.session.commit()
         user = Usuario.query.get_or_404(self.userIdCompartir)
         db.session.delete(user)
+
         db.session.commit()
