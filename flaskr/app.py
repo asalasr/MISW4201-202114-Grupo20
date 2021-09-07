@@ -1,4 +1,3 @@
-from flaskr.vistas.vistas import VistaCompartirAlbum
 from flaskr import create_app
 from flask_restful import Api
 from .modelos import db

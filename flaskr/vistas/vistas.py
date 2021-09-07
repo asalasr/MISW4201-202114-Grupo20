@@ -187,9 +187,14 @@ class VistaCompartirCancion(Resource):
         else:
              for user in arrayUsuariosId:
                 try:
-                    nueva_compartida = Compartida_cancion(cancion_id=id_cancion, usuario_id=user.id)
-                    db.session.add(nueva_compartida)
-                    db.session.commit()
+                    compartida = Compartida_cancion.query.filter(Compartida_cancion.cancion_id==id_cancion, Compartida_cancion.usuario_id==user.id).first()
+                    
+                    if compartida is None:
+                       
+                        nueva_compartida = Compartida_cancion(cancion_id=id_cancion, usuario_id=user.id)
+                        db.session.add(nueva_compartida)
+                        db.session.commit()
+                   
                 except:
                     print("Repetida, ignorar")
 
