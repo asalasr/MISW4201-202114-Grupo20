@@ -34,8 +34,7 @@ export class AlbumShareComponent implements OnInit {
       .subscribe(album => {
         this.album = album
         this.albumForm = this.formBuilder.group({
-          nombreUsuario: [album.usuario, [Validators.required]],
-          idUsuario: ["", [Validators.required]],
+          usuarios: [album.usuario, [Validators.required]]
         })
       })
 
@@ -43,7 +42,22 @@ export class AlbumShareComponent implements OnInit {
   }
 
   compartirAlbum(){
-
+    debugger
+    var nombres = this.albumForm.get('usuarios')?.value.split(";");
+    this.albumService.compatirAlbum(this.albumId, nombres, this.token)
+    .subscribe(album => {
+      this.showSuccess(album.titulo, this.albumForm.get('usuarios')?.value)
+      this.albumForm.reset()
+      this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
+    },
+    error=> {
+      if(error.statusText === "UNPROCESSABLE ENTITY"){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      }
+      else{
+        this.showError("Ha ocurrido un error. " + error.message)
+      }
+    })
   }
 
   cancelarCompatir(){
@@ -53,6 +67,10 @@ export class AlbumShareComponent implements OnInit {
 
   showError(error: string){
     this.toastr.error(error, "Error")
+  }
+
+  showSuccess(tituloAlbum: string, usuarios: string) {
+    this.toastr.success(`Se comparitó el álbum  ${tituloAlbum} con los usuarios ${usuarios}`, "Compartir exitoso");
   }
 
 }
