@@ -35,6 +35,22 @@
             "scripts": []
           },
           "configurations": {
+            "es": {
+              "aot": true,
+              "outputPath": "dist/tutorial-canciones-es/",
+              "i18nFile": "src/locale/messages.es.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "es",
+              "i18nMissingTranslation": "error"
+            },
+            "en": {
+              "aot": true,
+              "outputPath": "dist/tutorial-canciones-en/",
+              "i18nFile": "src/locale/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en",
+              "i18nMissingTranslation": "error"
+            },
             "production": {
               "budgets": [
                 {
@@ -69,12 +85,18 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "tutorial-canciones:build"
+          },
           "configurations": {
             "production": {
               "browserTarget": "tutorial-canciones:build:production"
             },
             "development": {
               "browserTarget": "tutorial-canciones:build:development"
+            },
+            "es": {
+              "browserTarget": "tutorial-canciones:build:es"
             }
           },
           "defaultConfiguration": "development"
