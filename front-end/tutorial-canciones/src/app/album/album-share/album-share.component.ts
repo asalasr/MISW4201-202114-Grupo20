@@ -45,7 +45,6 @@ export class AlbumShareComponent implements OnInit {
   compartirAlbum(){
     this.error = false
     var nombres = this.albumForm.get('usuarios')?.value.split(";")
-    var result = this.albumService.validarUsuarios(nombres, this.token)
 
     this.albumService.compatirAlbum(this.albumId, nombres, this.token)
     .subscribe(album => {
@@ -54,7 +53,6 @@ export class AlbumShareComponent implements OnInit {
       this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
     },
     error=> {
-      debugger
       if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
       }else if(error.statusText === "NOT FOUND"){
