@@ -56,11 +56,18 @@ export class AlbumService {
     return this.http.post<Cancion>(`${this.backUrl}/album/${albumId}/canciones`, {"id_cancion": cancionId})
   }
 
-  compatirAlbum(albumId: number, usuarios: [string], token: string,): Observable<Album>{
+  compatirAlbum(albumId: number, usuarios: [string], token: string): Observable<Album>{
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
     return this.http.post<Album>(`${this.backUrl}/album/compartir`, {"id_album": albumId, "lista_usuarios": usuarios})
+  }
+
+  validarUsuarios(usuarios: [string], token: string): Observable<Album>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Album>(`${this.backUrl}/usuarios/lista`, {"lista": usuarios})
   }
 
 }
