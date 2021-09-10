@@ -60,7 +60,7 @@ export class AlbumService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
-    return this.http.post<Album>(`${this.backUrl}/album/compartir/`, {"id_album": albumId, "lista_usuarios": usuarios})
+    return this.http.post<Album>(`${this.backUrl}/album/compartir`, {"id_album": albumId, "lista_usuarios": usuarios})
   }
 
 }

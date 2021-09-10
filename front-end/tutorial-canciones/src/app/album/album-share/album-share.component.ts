@@ -46,7 +46,7 @@ export class AlbumShareComponent implements OnInit {
     var nombres = this.albumForm.get('usuarios')?.value.split(";");
     this.albumService.compatirAlbum(this.albumId, nombres, this.token)
     .subscribe(album => {
-      this.showSuccess(album.titulo, this.albumForm.get('usuarios')?.value)
+      this.showSuccess(this.album.titulo, this.albumForm.get('usuarios')?.value)
       this.albumForm.reset()
       this.routerPath.navigate([`/albumes/${this.userId}/${this.token}`])
     },
