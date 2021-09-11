@@ -10,6 +10,16 @@ albumes_canciones = db.Table('album_cancion',
     db.Column('album_id', db.Integer, db.ForeignKey('album.id'), primary_key = True),
     db.Column('cancion_id', db.Integer, db.ForeignKey('cancion.id'), primary_key = True))
 
+
+
+class Compartida_cancion(db.Model):
+    cancion_id = db.Column( db.Integer, db.ForeignKey('cancion.id'), primary_key = True)
+    usuario_id = db.Column( db.Integer, db.ForeignKey('usuario.id'), primary_key = True)
+
+class Compartida_album(db.Model):
+    album_id = db.Column( db.Integer, db.ForeignKey('cancion.id'), primary_key = True)
+    usuario_id = db.Column( db.Integer, db.ForeignKey('usuario.id'), primary_key = True)
+
 class Cancion(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     titulo = db.Column(db.String(128))
@@ -62,3 +72,4 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
          model = Usuario
          include_relationships = True
          load_instance = True
+
