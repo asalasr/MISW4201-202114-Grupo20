@@ -12,15 +12,15 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label>Título </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <input type="text" class="form-control" formControlName="titulo" placeholder="Titulo del album">
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('titulo')?.hasError('required') && albumForm.get('titulo')?.touched">
                   Debe ingresar un título para el álbum
                 </div>
@@ -36,15 +36,15 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="anio">Año </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <input type="text" class="form-control" formControlName="anio" placeholder="Año de lanzamiento">
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('anio')?.hasError('required') && albumForm.get('anio')?.touched">
                   Debe ingresar un año para el álbum
                 </div>
@@ -60,10 +60,10 @@
 
           <div class="form-group my-2">
             <div class=" row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="medio">Medio </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <select class="form-select" formControlName="medio">
                   <option value="" disabled>Selecciona el medio del álbum</option>
                   <option *ngFor="let medio of medios" value={{medio.llave}}>{{medio.llave}}</option>
@@ -71,7 +71,7 @@
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('medio')?.hasError('required') && albumForm.get('medio')?.touched">
                   Debe seleccionar el medio del álbum
                 </div>
@@ -81,15 +81,15 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="descripcion">Descripción </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <textarea class=" form-control" formControlName="descripcion" placeholder="Descripción del álbum"></textarea>
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="albumForm.get('descripcion')?.hasError('required') && albumForm.get('descripcion')?.touched">
                   Debe ingresar una descripción para el álbum
                 </div>
@@ -108,7 +108,7 @@
               <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
             </div>
             <div class="col-6 text-start">
-              <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid">Guardar cambios</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!albumForm.valid">Guardar</button>
             </div>
           </div>
 
