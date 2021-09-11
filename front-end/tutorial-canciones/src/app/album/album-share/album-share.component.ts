@@ -17,6 +17,9 @@ export class AlbumShareComponent implements OnInit {
   albumId: number;
   album: Album;
   albumForm !: FormGroup;
+
+  error: boolean = false
+
   constructor(private albumService: AlbumService,
     private formBuilder: FormBuilder,
     private router: ActivatedRoute, private routerPath: Router,
@@ -42,8 +45,11 @@ export class AlbumShareComponent implements OnInit {
   }
 
   compartirAlbum(){
-    debugger
-    var nombres = this.albumForm.get('usuarios')?.value.split(";");
+
+    this.error = false
+    var nombres = this.albumForm.get('usuarios')?.value.split(";")
+
+
     this.albumService.compatirAlbum(this.albumId, nombres, this.token)
     .subscribe(album => {
       this.showSuccess(this.album.titulo, this.albumForm.get('usuarios')?.value)
@@ -53,6 +59,10 @@ export class AlbumShareComponent implements OnInit {
     error=> {
       if(error.statusText === "UNPROCESSABLE ENTITY"){
         this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+
+      }else if(error.statusText === "NOT FOUND"){
+        this.showError("No se pudo compartir el álbum. Uno de los usuarios no existe")
+
       }
       else{
         this.showError("Ha ocurrido un error. " + error.message)
