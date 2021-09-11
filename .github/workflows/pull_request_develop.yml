@@ -35,8 +35,7 @@ jobs:
           pip install -r flaskr/requirements.txt
       - name: name Instalar librerias from
         run: |
-          cd front-end
-          npm install
+          npm --prefix ./front-end install ./front-end
       - name: Correr pruebas
         id: correr-pruebas
         run: python -m unittest discover -s tests -v
