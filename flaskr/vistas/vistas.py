@@ -1,5 +1,5 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, CompartirAlbumSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
@@ -8,7 +8,7 @@ import sys
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
-
+compartir_album_schema = CompartirAlbumSchema()
 
 
 class VistaCanciones(Resource):
@@ -101,7 +101,18 @@ class VistaAlbumsUsuario(Resource):
     @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
-        return [album_schema.dump(al) for al in usuario.albumes]
+        
+        albumesCompartidos = []
+        
+        compartida = Compartida_album.query.filter( Compartida_album.usuario_id==1).all()
+        if compartida is None:
+            return {"mensaje":"successes", "compartidas": albumesCompartidos, "propios":[album_schema.dump(al) for al in usuario.albumes]},202
+        else:
+            
+            for com in compartida:
+                albumesCompartidos.append(album_schema.dump(Album.query.get_or_404(com.album_id)))
+            return {"mensaje":"successes", "compartidas": albumesCompartidos, "propios":[album_schema.dump(al) for al in usuario.albumes]},202 
+        
 
 class VistaCancionesAlbum(Resource):
 
@@ -234,3 +245,9 @@ class VistaCompartirAlbum(Resource):
                     return {"mensaje":"Error", "error":e.args[0]}, 404
 
         return {"mensaje":"successes"},202     
+
+
+
+                    
+                    
+           
