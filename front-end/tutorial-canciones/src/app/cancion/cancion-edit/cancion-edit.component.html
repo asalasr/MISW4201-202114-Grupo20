@@ -13,15 +13,15 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="titulo">Título </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <input type="text" class="form-control" formControlName="titulo" placeholder="Titulo de la canción">
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="cancionForm.get('titulo')?.hasError('required') && cancionForm.get('titulo')?.touched">
                   Debe ingresar un título para la canción
                 </div>
@@ -34,25 +34,25 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="titulo">Tiempo </label>
               </div>
-              <div class="col-3">
+              <div class="col-12 col-lg-8">
                 <div class="row">
-                  <div class="col-5">
+                  <div class="col-3 col-lg-2">
                     <input type="text" class="form-control" formControlName="minutos" placeholder="mm">
                   </div>
-                  <div class="col-1">
+                  <div class="col-1 col-lg-1">
                     <label for="titulo">:</label>
                   </div>
-                  <div class="col-5">
+                  <div class="col-3 col-lg-2">
                     <input type="text"  class="form-control" formControlName="segundos" placeholder="ss">
                   </div>
                 </div>
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="(cancionForm.get('minutos')?.hasError('required') && cancionForm.get('minutos')?.touched) || (cancionForm.get('segundos')?.hasError('required') && cancionForm.get('segundos')?.touched)">
                   Debe ingresar un tiempo de duración para la canción
                 </div>
@@ -71,15 +71,15 @@
 
           <div class="form-group my-2">
             <div class="row">
-              <div class="col-2 text-start">
+              <div class="col-5 col-lg-2 text-start">
                 <label for="titulo">Interprete </label>
               </div>
-              <div class="col-10">
+              <div class="col-12 col-lg-8">
                 <input type="text" class="form-control" formControlName="interprete" placeholder="Interprete de la canción">
               </div>
             </div>
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-12 col-lg-8">
                 <div class="alert alert-danger my-3" *ngIf="cancionForm.get('interprete')?.hasError('required') && cancionForm.get('interprete')?.touched">
                   Debe ingresar un interprete para la canción
                 </div>
@@ -95,7 +95,7 @@
               <button class="btn btn-danger" (click)="cancelCreate()">Cancelar</button>
             </div>
             <div class="col-6 text-start">
-              <button type="submit" class="btn btn-primary" [disabled]="!cancionForm.valid">Editar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!cancionForm.valid">Guardar</button>
             </div>
           </div>
 

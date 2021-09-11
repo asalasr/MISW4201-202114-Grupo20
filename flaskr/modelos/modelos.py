@@ -28,6 +28,7 @@ class Cancion(db.Model):
     interprete = db.Column(db.String(128))
     albumes = db.relationship('Album', secondary = 'album_cancion', back_populates="canciones")
 
+
 class Medio(enum.Enum):
    DISCO = 1
    CASETE = 2
