@@ -28,7 +28,17 @@ class VistaCanciones(Resource):
     @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
-        return [cancion_schema.dump(ca) for ca in usuario.canciones]
+        
+        cancionesCompartidos = []
+        
+        compartida = Compartida_cancion.query.filter( Compartida_cancion.usuario_id==id_usuario).all()
+        if compartida is None:
+            return {"mensaje":"successes", "compartidas": cancionesCompartidos, "propios":[cancion_schema.dump(ca) for ca in usuario.canciones]},202
+        else:
+            
+            for com in compartida:
+                cancionesCompartidos.append(cancion_schema.dump(Cancion.query.get_or_404(com.cancion_id)))
+            return {"mensaje":"successes", "compartidas": cancionesCompartidos, "propios":[cancion_schema.dump(ca) for ca in usuario.canciones]},202 
 
 class VistaCancion(Resource):
 
@@ -55,6 +65,7 @@ class VistaAlbumesCanciones(Resource):
     def get(self, id_cancion):
         cancion = Cancion.query.get_or_404(id_cancion)
         return [album_schema.dump(al) for al in cancion.albumes]
+        
 
 class VistaSignIn(Resource):
     
@@ -112,7 +123,7 @@ class VistaAlbumsUsuario(Resource):
         
         albumesCompartidos = []
         
-        compartida = Compartida_album.query.filter( Compartida_album.usuario_id==1).all()
+        compartida = Compartida_album.query.filter( Compartida_album.usuario_id==id_usuario).all()
         if compartida is None:
             return {"mensaje":"successes", "compartidas": albumesCompartidos, "propios":[album_schema.dump(al) for al in usuario.albumes]},202
         else:
