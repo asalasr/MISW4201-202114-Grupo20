@@ -12,6 +12,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+flaskr/tutorial_canciones.db
 develop-eggs/
 dist/
 downloads/
