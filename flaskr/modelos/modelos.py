@@ -74,3 +74,9 @@ class UsuarioSchema(SQLAlchemyAutoSchema):
          include_relationships = True
          load_instance = True
 
+class CompartirAlbumSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Compartida_album
+         include_relationships = True
+         load_instance = True
+
