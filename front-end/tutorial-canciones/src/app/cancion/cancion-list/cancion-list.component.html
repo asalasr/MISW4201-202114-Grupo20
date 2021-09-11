@@ -19,7 +19,7 @@
               <input #busqueda type="search" class="form-control" placeholder="Buscar canciones" aria-label="Search" (keyup)="buscarCancion(busqueda.value)">
             </div>
 
-            <table class="table table-hover mb-0" aria-describedby="colecName">
+            <table class="table table-striped mb-0" aria-describedby="colecName">
               <tbody>
                   <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
                     <td>{{cancion.titulo}}</td>

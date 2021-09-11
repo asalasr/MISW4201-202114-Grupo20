@@ -56,7 +56,9 @@ export class AlbumService {
     return this.http.post<Cancion>(`${this.backUrl}/album/${albumId}/canciones`, {"id_cancion": cancionId})
   }
 
+
   compatirAlbum(albumId: number, usuarios: [string], token: string): Observable<Album>{
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
