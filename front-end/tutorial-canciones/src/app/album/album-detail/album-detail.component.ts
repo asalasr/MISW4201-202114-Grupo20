@@ -38,7 +38,7 @@ export class AlbumDetailComponent implements OnInit {
   }
 
   compartirAlbum(){
-
+    this.routerPath.navigate([`/albumes/share/${this.album.id}/${this.userId}/${this.token}`])
   }
 
 }

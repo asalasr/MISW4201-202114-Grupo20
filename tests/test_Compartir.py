@@ -47,7 +47,7 @@ class test_Compartir(unittest.TestCase):
         self.assertEqual(202, response.status_code)
 
     def test_compartirCancion(self):
-        nueva_cancion = Cancion(titulo="titulo8885446", minutos=3, segundos=3, interprete="interprete8887999")
+        nueva_cancion = Cancion(titulo="titulo8885446", minutos=3, segundos=3, interprete="interprete8887999",usuario=self.userId)
         db.session.add(nueva_cancion)
         db.session.commit()
         

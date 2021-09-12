@@ -22,6 +22,7 @@ export class CancionListComponent implements OnInit {
   token: string
   canciones: Array<Cancion>
   mostrarCanciones: Array<Cancion>
+  mostrarCancionesComp: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
 
@@ -37,10 +38,17 @@ export class CancionListComponent implements OnInit {
   }
 
   getCanciones():void{
-    this.cancionService.getCanciones()
+    this.cancionService.getCancionesUsuario(this.userId, this.token)
     .subscribe(canciones => {
-      this.canciones = canciones
-      this.mostrarCanciones = canciones
+
+      this.mostrarCanciones = canciones['propios']
+      this.mostrarCancionesComp = canciones['compartidas']
+
+      for (let c of canciones['compartidas']) {
+        this.mostrarCanciones.push(c)
+      }
+      this.canciones = this.mostrarCanciones
+
       this.onSelect(this.mostrarCanciones[0], 0)
     })
   }
@@ -55,7 +63,7 @@ export class CancionListComponent implements OnInit {
     error => {
       this.showError(`Ha ocurrido un error: ${error.message}`)
     })
-    
+
   }
 
   buscarCancion(busqueda: string){
@@ -66,6 +74,7 @@ export class CancionListComponent implements OnInit {
       }
     })
     this.mostrarCanciones = cancionesBusqueda
+    this.mostrarCancionesComp = cancionesBusqueda
   }
 
   eliminarCancion(){
@@ -91,4 +100,14 @@ export class CancionListComponent implements OnInit {
     this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
   }
 
+  esCompartida(idCancion: number):boolean{
+
+    for (let c of this.mostrarCancionesComp) {
+
+      if (c.id == idCancion){
+        return true
+      }
+    }
+    return false
+  }
 }

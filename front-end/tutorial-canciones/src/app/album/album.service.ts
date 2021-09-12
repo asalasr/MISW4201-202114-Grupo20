@@ -13,23 +13,23 @@ export class AlbumService {
 
   constructor(private http: HttpClient) { }
 
-  getAlbumes(usuario: number, token: string): Observable<Album[]>{
+  getAlbumes(usuario: number, token: string): Observable<any>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
-    return this.http.get<Album[]>(`${this.backUrl}/usuario/${usuario}/albumes`, {headers: headers})
+    return this.http.get<any>(`${this.backUrl}/usuario/${usuario}/albumes`, {headers: headers})
   }
 
   getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
   }
 
   crearAlbum(idUsuario: number, token: string, album: Album):Observable<Album>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.post<Album>(`${this.backUrl}/usuario/${idUsuario}/albumes`, album, {headers: headers})
   }
@@ -40,20 +40,36 @@ export class AlbumService {
 
   editarAlbum(idUsuario: number, token: string, albumId: number, album: Album): Observable<Album>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.put<Album>(`${this.backUrl}/album/${albumId}`, album, {headers: headers})
   }
 
   eliminarAlbum(idUsuario: number, token: string, albumId: number): Observable<Album>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`       
+      'Authorization': `Bearer ${token}`
     })
     return this.http.delete<Album>(`${this.backUrl}/album/${albumId}`, {headers: headers})
   }
 
   asociarCancion(albumId: number, cancionId: number): Observable<Cancion>{
     return this.http.post<Cancion>(`${this.backUrl}/album/${albumId}/canciones`, {"id_cancion": cancionId})
+  }
+
+
+  compatirAlbum(albumId: number, usuarios: [string], token: string): Observable<Album>{
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Album>(`${this.backUrl}/album/compartir`, {"id_album": albumId, "lista_usuarios": usuarios})
+  }
+
+  validarUsuarios(usuarios: [string], token: string): Observable<Album>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Album>(`${this.backUrl}/usuarios/lista`, {"lista": usuarios})
   }
 
 }
