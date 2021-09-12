@@ -10,6 +10,7 @@ import { CancionEditComponent } from './cancion/cancion-edit/cancion-edit.compon
 import { AlbumJoinCancionComponent } from './album/album-join-cancion/album-join-cancion.component';
 import { UsuarioSignupComponent } from './usuario/usuario-signup/usuario-signup.component';
 import { AlbumShareComponent } from './album/album-share/album-share.component';
+import { CancionShareComponent } from './cancion/cancion-share/cancion-share.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
     path: 'albumes/share/:albumId/:userId/:userToken',
     component: AlbumShareComponent
   },
+  {
+    path: 'canciones/share/:cancionId/:userId/:userToken',
+    component: CancionShareComponent
+  }
 ];
 
 @NgModule({
