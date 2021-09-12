@@ -20,6 +20,7 @@ class VistaCanciones(Resource):
         usuario.canciones.append(nueva_cancion)
         try:
             db.session.commit()
+            return {"mensaje":"cancion creada exitosamente"}
         except IntegrityError:
             db.session.rollback()
             return 'Error de creacion de cancion',409
