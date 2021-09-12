@@ -53,13 +53,13 @@ export class AlbumJoinCancionComponent implements OnInit {
 
   getCanciones(cancionesAlbum: Array<any>){
     let cancionesNoAgregadas: Array<Cancion> = []
-    this.cancionService.getCanciones()
+    this.cancionService.getCancionesUsuario(this.userId, this.token)
     .subscribe(canciones => {
-      canciones.map(c => {
+      for (let c of canciones['propios']) {
         if(!cancionesAlbum.includes(c.id)){
-          cancionesNoAgregadas.push(c)
+        cancionesNoAgregadas.push(c)
         }
-      })
+      }
     })
     this.canciones = cancionesNoAgregadas
   }

@@ -45,6 +45,9 @@ export class CancionCreateComponent implements OnInit {
     this.cancionForm.get('segundos')?.setValue(parseInt(this.cancionForm.get('segundos')?.value))
     this.cancionService.crearCancion(this.userId, this.token, newCancion)
     .subscribe(cancion => {
+      console.log("cancion")
+      console.log(typeof cancion)
+      console.log(cancion)
       this.showSuccess(cancion)
       this.cancionForm.reset()
       this.routerPath.navigate([`/canciones/${this.userId}/${this.token}`])
