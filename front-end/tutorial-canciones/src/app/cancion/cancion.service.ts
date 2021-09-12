@@ -35,8 +35,11 @@ export class CancionService {
     return this.http.get<Album[]>(`${this.backUrl}/cancion/${cancionId}/albumes`)
   }
 
-  crearCancion(cancion: Cancion):Observable<Cancion>{
-    return this.http.post<Cancion>(`${this.backUrl}/canciones`, cancion)
+  crearCancion(idUsuario: number, token: string, cancion: Cancion):Observable<Cancion>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Cancion>(`${this.backUrl}/usuario/${idUsuario}/canciones`, cancion, {headers: headers})
   }
 
   getCancion(cancionId: number): Observable<Cancion>{

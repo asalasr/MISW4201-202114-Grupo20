@@ -47,7 +47,6 @@ export class CancionListComponent implements OnInit {
       for (let c of canciones['compartidas']) {
         this.mostrarCanciones.push(c)
       }
-
       this.canciones = this.mostrarCanciones
 
       this.onSelect(this.mostrarCanciones[0], 0)
@@ -103,11 +102,7 @@ export class CancionListComponent implements OnInit {
 
   esCompartida(idCancion: number):boolean{
 
-    console.log(this.mostrarCancionesComp)
-
     for (let c of this.mostrarCancionesComp) {
-      console.log("entra")
-      console.log ("id es:"+c.id + "idAlbum:"+idCancion)
 
       if (c.id == idCancion){
         return true
