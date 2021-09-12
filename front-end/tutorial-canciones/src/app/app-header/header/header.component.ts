@@ -49,16 +49,7 @@ export class HeaderComponent implements OnInit {
     .subscribe(usuario => {
       this.usuario = usuario;
 
-      console.log(typeof this.usuario);
-      console.log( this.usuario);
-
-      console.log(this.usuario.nombre);
-      //console.log(this.usuario[0].nombre);
       this.userLogin = this.usuario.nombre;
-
-      console.log("hay vamos" + this.userLogin);
-
-      console.log("si se pudo");
     },
     error => {
       console.log(error)

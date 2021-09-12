@@ -40,9 +40,15 @@ export class AlbumListComponent implements OnInit {
   getAlbumes():void{
     this.albumService.getAlbumes(this.userId, this.token)
     .subscribe(albumes => {
-      this.albumes = albumes
-      this.mostrarAlbumes = albumes
-      this.mostrarAlbumesComp = albumes
+
+      this.mostrarAlbumes = albumes['propios']
+      this.mostrarAlbumesComp = albumes['compartidas']
+
+      for (let c of albumes['compartidas']) {
+        this.mostrarAlbumes.push(c)
+      }
+
+      this.albumes = this.mostrarAlbumes
       if(albumes.length>0){
         this.onSelect(this.mostrarAlbumes[0], 0)
       }
@@ -63,7 +69,7 @@ export class AlbumListComponent implements OnInit {
   }
 
   onSelect(a: Album, index: number){
-    this.indiceSeleccionado = index
+   this.indiceSeleccionado = index
     this.albumSeleccionado = a
     this.albumService.getCancionesAlbum(a.id, this.token)
     .subscribe(canciones => {
@@ -93,7 +99,6 @@ export class AlbumListComponent implements OnInit {
       }
     })
     this.mostrarAlbumes = albumesBusqueda
-    this.mostrarAlbumesComp = albumesBusqueda
   }
 
   irCrearAlbum(){
@@ -130,5 +135,23 @@ export class AlbumListComponent implements OnInit {
 
   showSuccess() {
     this.toastr.success(`El album fue eliminado`, "Eliminado exitosamente");
+  }
+
+  esCompartida(idAlbum : number):boolean{
+
+    console.log(this.mostrarAlbumesComp)
+
+    for (let c of this.mostrarAlbumesComp) {
+      console.log("entra")
+      console.log ("id es:"+c.id + "idAlbum:"+idAlbum)
+
+      if (c.id == idAlbum){
+       console.log("es igual")
+        return true
+      }
+    }
+
+    console.log("no hay")
+    return false
   }
 }

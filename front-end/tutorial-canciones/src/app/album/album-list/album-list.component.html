@@ -25,14 +25,8 @@
                 <tr *ngFor="let album of mostrarAlbumes; index as i" (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
                   <td >{{album.titulo}}</td>
                   <td >{{album.anio}}</td>
-                  <td>
-                  </td>
-                </tr>
-                <tr *ngFor="let album of mostrarAlbumesComp; index as i" (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
-                  <td >{{album.titulo}}</td>
-                  <td >{{album.anio}}</td>
-                  <td>
-                    <i class="bi bi-share"></i>
+                  <td >
+                    <p *ngIf="esCompartida(album.id)"><i class="bi bi-share"></i></p>
                   </td>
                 </tr>
             </tbody>

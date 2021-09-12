@@ -13,11 +13,11 @@ export class AlbumService {
 
   constructor(private http: HttpClient) { }
 
-  getAlbumes(usuario: number, token: string): Observable<Album[]>{
+  getAlbumes(usuario: number, token: string): Observable<any>{
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
-    return this.http.get<Album[]>(`${this.backUrl}/usuario/${usuario}/albumes`, {headers: headers})
+    return this.http.get<any>(`${this.backUrl}/usuario/${usuario}/albumes`, {headers: headers})
   }
 
   getCancionesAlbum(idAlbum: number, token: string): Observable<Cancion[]>{
