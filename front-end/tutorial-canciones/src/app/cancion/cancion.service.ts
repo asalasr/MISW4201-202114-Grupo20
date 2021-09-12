@@ -20,9 +20,9 @@ export class CancionService {
     return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
   }
 
-  getCanciones(): Observable<Cancion[]>{
+  /*getCanciones(): Observable<Cancion[]>{
     return this.http.get<Cancion[]>(`${this.backUrl}/canciones`)
-  }
+  }*/
 
   getCancionesUsuario(usuario: number,token: string): Observable<any>{
     const headers = new HttpHeaders({
