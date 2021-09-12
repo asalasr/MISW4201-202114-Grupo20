@@ -17,11 +17,12 @@ export class AlbumListComponent implements OnInit {
     private toastr: ToastrService,
     private routerPath: Router
   ) { }
-  
+
   userId: number
   token: string
   albumes: Array<Album>
   mostrarAlbumes: Array<Album>
+  mostrarAlbumesComp: Array<Album>
   albumSeleccionado: Album
   indiceSeleccionado: number
 
@@ -39,8 +40,15 @@ export class AlbumListComponent implements OnInit {
   getAlbumes():void{
     this.albumService.getAlbumes(this.userId, this.token)
     .subscribe(albumes => {
-      this.albumes = albumes
-      this.mostrarAlbumes = albumes
+
+      this.mostrarAlbumes = albumes['propios']
+      this.mostrarAlbumesComp = albumes['compartidas']
+
+      for (let c of albumes['compartidas']) {
+        this.mostrarAlbumes.push(c)
+      }
+
+      this.albumes = this.mostrarAlbumes
       if(albumes.length>0){
         this.onSelect(this.mostrarAlbumes[0], 0)
       }
@@ -57,11 +65,11 @@ export class AlbumListComponent implements OnInit {
         this.showError("Ha ocurrido un error. " + error.message)
       }
     })
-    
+
   }
 
   onSelect(a: Album, index: number){
-    this.indiceSeleccionado = index
+   this.indiceSeleccionado = index
     this.albumSeleccionado = a
     this.albumService.getCancionesAlbum(a.id, this.token)
     .subscribe(canciones => {
@@ -127,5 +135,23 @@ export class AlbumListComponent implements OnInit {
 
   showSuccess() {
     this.toastr.success(`El album fue eliminado`, "Eliminado exitosamente");
+  }
+
+  esCompartida(idAlbum : number):boolean{
+
+    console.log(this.mostrarAlbumesComp)
+
+    for (let c of this.mostrarAlbumesComp) {
+      console.log("entra")
+      console.log ("id es:"+c.id + "idAlbum:"+idAlbum)
+
+      if (c.id == idAlbum){
+       console.log("es igual")
+        return true
+      }
+    }
+
+    console.log("no hay")
+    return false
   }
 }

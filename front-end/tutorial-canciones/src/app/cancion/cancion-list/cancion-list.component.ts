@@ -22,6 +22,7 @@ export class CancionListComponent implements OnInit {
   token: string
   canciones: Array<Cancion>
   mostrarCanciones: Array<Cancion>
+  mostrarCancionesComp: Array<Cancion>
   cancionSeleccionada: Cancion
   indiceSeleccionado: number = 0
 
@@ -41,6 +42,7 @@ export class CancionListComponent implements OnInit {
     .subscribe(canciones => {
       this.canciones = canciones
       this.mostrarCanciones = canciones
+      this.mostrarCancionesComp = canciones
       this.onSelect(this.mostrarCanciones[0], 0)
     })
   }
@@ -55,7 +57,7 @@ export class CancionListComponent implements OnInit {
     error => {
       this.showError(`Ha ocurrido un error: ${error.message}`)
     })
-    
+
   }
 
   buscarCancion(busqueda: string){
@@ -66,6 +68,7 @@ export class CancionListComponent implements OnInit {
       }
     })
     this.mostrarCanciones = cancionesBusqueda
+    this.mostrarCancionesComp = cancionesBusqueda
   }
 
   eliminarCancion(){
