@@ -25,6 +25,7 @@
                     <td>{{cancion.titulo}}</td>
                     <td>{{cancion.minutos | number:'2.0'}}:{{cancion.segundos | number:'2.0'}}</td>
                     <td>
+                      <p *ngIf="esCompartida(cancion.id)"><i class="bi bi-share"></i></p>
                     </td>
                   </tr>
               </tbody>
