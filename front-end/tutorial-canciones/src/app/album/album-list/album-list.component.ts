@@ -139,19 +139,12 @@ export class AlbumListComponent implements OnInit {
 
   esCompartida(idAlbum : number):boolean{
 
-    console.log(this.mostrarAlbumesComp)
-
     for (let c of this.mostrarAlbumesComp) {
-      console.log("entra")
-      console.log ("id es:"+c.id + "idAlbum:"+idAlbum)
 
       if (c.id == idAlbum){
-       console.log("es igual")
         return true
       }
     }
-
-    console.log("no hay")
     return false
   }
 }

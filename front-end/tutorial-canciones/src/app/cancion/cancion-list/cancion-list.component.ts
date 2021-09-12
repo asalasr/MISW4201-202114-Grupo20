@@ -38,11 +38,17 @@ export class CancionListComponent implements OnInit {
   }
 
   getCanciones():void{
-    this.cancionService.getCanciones()
+    this.cancionService.getCancionesUsuario(this.userId, this.token)
     .subscribe(canciones => {
-      this.canciones = canciones
-      this.mostrarCanciones = canciones
-      this.mostrarCancionesComp = canciones
+
+      this.mostrarCanciones = canciones['propios']
+      this.mostrarCancionesComp = canciones['compartidas']
+
+      for (let c of canciones['compartidas']) {
+        this.mostrarCanciones.push(c)
+      }
+      this.canciones = this.mostrarCanciones
+
       this.onSelect(this.mostrarCanciones[0], 0)
     })
   }
@@ -94,4 +100,14 @@ export class CancionListComponent implements OnInit {
     this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
   }
 
+  esCompartida(idCancion: number):boolean{
+
+    for (let c of this.mostrarCancionesComp) {
+
+      if (c.id == idCancion){
+        return true
+      }
+    }
+    return false
+  }
 }
