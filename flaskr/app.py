@@ -14,7 +14,7 @@ db.create_all()
 cors = CORS(app)
 
 api = Api(app)
-api.add_resource(VistaCanciones, '/canciones')
+api.add_resource(VistaCanciones, '/canciones/<int:id_usuario>')
 api.add_resource(VistaCancion, '/cancion/<int:id_cancion>')
 api.add_resource(VistaAlbumesCanciones, '/cancion/<int:id_cancion>/albumes')
 api.add_resource(VistaSignIn, '/signin')
