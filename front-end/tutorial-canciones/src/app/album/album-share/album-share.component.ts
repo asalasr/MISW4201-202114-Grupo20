@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Album } from '../album';
@@ -26,6 +26,9 @@ export class AlbumShareComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.albumForm = new FormGroup({
+      usuarios: new FormControl()
+   });
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
