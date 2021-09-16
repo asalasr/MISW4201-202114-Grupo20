@@ -4,6 +4,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import sys
+from datetime import datetime
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
@@ -200,7 +201,7 @@ class VistaUsuario(Resource):
     
 
 class VistaCompartirCancion(Resource):
- 
+    @jwt_required()
     def post(self):
         id_cancion = request.json["id_cancion"]
         arrayUsuarios = request.json["lista_usuarios"]
@@ -232,7 +233,7 @@ class VistaCompartirCancion(Resource):
         return {"mensaje":"successes"},202
 
 class VistaCompartirAlbum(Resource):
-     
+    @jwt_required()
     def post(self):
         id_album = request.json["id_album"]
         arrayUsuarios = request.json["lista_usuarios"]
@@ -266,6 +267,16 @@ class VistaCompartirAlbum(Resource):
 
         return {"mensaje":"successes"},202     
 
+
+class VistaComentarioAlbum(Resource):
+    @jwt_required() 
+    def post(self):
+        id_album = request.json["id_album"]
+        message = request.json["message"]
+        current_user = get_jwt_identity()
+        now = datetime.now()
+        print("album id: ",id_album,",message: ",message,",current_user: ",current_user,"fecha: ",now)
+        return {"mensaje":"successes"},202     
 
 
                     
