@@ -278,7 +278,10 @@ class VistaComentarioAlbum(Resource):
         print("album id: ",id_album,",message: ",message,",current_user: ",current_user,"fecha: ",now)
         return {"mensaje":"successes"},202     
 
-
-                    
+class VistaTraerComentarioAlbum(Resource):
+    @jwt_required()
+    def get(self, id_album):
+        
+        return {"comments":[{"album id":id_album ,"message":"soy el comentario","name_user":"johan","date":"10/20/2021"},{"album id":id_album ,"message":"soy el comentario 2","name_user":"andres","date":"10/20/2021"}]}, 202                
                     
            
