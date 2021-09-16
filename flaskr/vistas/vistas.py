@@ -275,7 +275,7 @@ class VistaComentarioAlbum(Resource):
         message = request.json["message"]
         current_user = get_jwt_identity()
         now = datetime.now()
-        print("album id: ",id_album,"message: ",message,"current_user: ",current_user,"fecha: ",now)
+        print("album id: ",id_album,",message: ",message,",current_user: ",current_user,"fecha: ",now)
         return {"mensaje":"successes"},202     
 
 
