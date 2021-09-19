@@ -48,23 +48,10 @@ export class AlbumDetailComponent implements OnInit {
   getAlbumes():void{
     this.albumService.getAlbumes(this.userId, this.token)
     .subscribe(albumes => {
-
-      // this.mostrarAlbumes = albumes['propios']
       this.mostrarAlbumesComp = albumes['compartidas']
 
 
     })
 
-  }
-
-  esCompartida(idAlbum : number):boolean{
-    debugger
-    // for (let c of this.mostrarAlbumesComp) {
-
-    //   if (c.id == idAlbum){
-    //     return true
-    //   }
-    // }
-    return false
   }
 }

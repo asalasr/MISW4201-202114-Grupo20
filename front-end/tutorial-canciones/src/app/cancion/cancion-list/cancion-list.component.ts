@@ -59,6 +59,7 @@ export class CancionListComponent implements OnInit {
     this.cancionService.getAlbumesCancion(cancion.id)
     .subscribe(albumes => {
       this.cancionSeleccionada.albumes = albumes
+      this.cancionSeleccionada.esCompartido = this.esCompartida(this.cancionSeleccionada.id)
     },
     error => {
       this.showError(`Ha ocurrido un error: ${error.message}`)
