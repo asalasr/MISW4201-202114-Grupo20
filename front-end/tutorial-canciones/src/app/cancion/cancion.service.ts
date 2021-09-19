@@ -63,6 +63,6 @@ export class CancionService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
-    return this.http.post<Cancion>(`${this.backUrl}/cancion/compartir`, {"id_cancion": cancionId, "lista_usuarios": usuarios})
+    return this.http.post<Cancion>(`${this.backUrl}/cancion/compartir`, {"id_cancion": cancionId, "lista_usuarios": usuarios}, {headers: headers})
   }
 }
