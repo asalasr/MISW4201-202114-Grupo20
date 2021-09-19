@@ -75,6 +75,7 @@ export class AlbumListComponent implements OnInit {
     .subscribe(canciones => {
       this.albumSeleccionado.canciones = canciones
       this.albumSeleccionado.interpretes = this.getInterpretes(canciones)
+      this.albumSeleccionado.esCompartido = this.esCompartida(this.albumSeleccionado.id)
     },
     error =>{
       this.showError("Ha ocurrido un error, " + error.message)
