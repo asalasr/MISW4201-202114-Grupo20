@@ -7,7 +7,8 @@ export class Album {
     medio: Medio;
     usuario: number;
     interpretes: Array<string>;
-    canciones: Array<Cancion>
+    canciones: Array<Cancion>;
+    esCompartido: boolean
 
     constructor(
         id: number,
@@ -17,7 +18,8 @@ export class Album {
         medio: Medio,
         usuario: number,
         interpretes: Array<string>,
-        canciones: Array<Cancion>
+        canciones: Array<Cancion>,
+        esCompartido: boolean
     ){
         this.id = id,
         this.titulo = titulo,
@@ -26,7 +28,8 @@ export class Album {
         this.medio = medio,
         this.usuario = usuario,
         this.interpretes = interpretes,
-        this.canciones = canciones
+        this.canciones = canciones,
+        this.esCompartido = esCompartido
     }
 }
 

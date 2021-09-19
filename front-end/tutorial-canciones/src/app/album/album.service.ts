@@ -59,11 +59,11 @@ export class AlbumService {
 
 
   compatirAlbum(albumId: number, usuarios: [string], token: string): Observable<Album>{
-
+    debugger
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
-    return this.http.post<Album>(`${this.backUrl}/album/compartir`, {"id_album": albumId, "lista_usuarios": usuarios})
+    return this.http.post<Album>(`${this.backUrl}/album/compartir`, {"id_album": albumId, "lista_usuarios": usuarios}, {headers: headers})
   }
 
   validarUsuarios(usuarios: [string], token: string): Observable<Album>{
