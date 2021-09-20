@@ -31,7 +31,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
