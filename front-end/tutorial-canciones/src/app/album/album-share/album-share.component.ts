@@ -65,7 +65,7 @@ export class AlbumShareComponent implements OnInit {
       for (let c of nombres) {
         if (c== userName){
           console.log("mismo usuario")
-          this.showError("No se puede compartir un album con el mismo usuario")
+          this.showError("No se puede compartir al album a usted mismo")
         }else{
           this.albumService.compatirAlbum(this.albumId, nombres, this.token)
           .subscribe(album => {
