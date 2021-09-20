@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 import enum
-
+import datetime
 
 db = SQLAlchemy()
 
@@ -42,6 +42,7 @@ class Album(db.Model):
     medio = db.Column(db.Enum(Medio))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     canciones = db.relationship('Cancion', secondary = 'album_cancion', back_populates="albumes")
+    comentarios = db.relationship('AlbumComentario', cascade='all, delete, delete-orphan')
     
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -49,6 +50,15 @@ class Usuario(db.Model):
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
     canciones = db.relationship('Cancion', cascade='all, delete, delete-orphan')
+    comentarios = db.relationship('AlbumComentario', cascade='all, delete, delete-orphan')
+
+class AlbumComentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comentario = db.Column(db.String(50))
+    fecha = db.Column(db.DateTime, default=datetime.datetime.now)
+    id_album = db.Column(db.Integer, db.ForeignKey("album.id"))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):

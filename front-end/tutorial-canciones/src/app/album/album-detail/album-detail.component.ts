@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Album } from '../album';
 
@@ -17,7 +18,7 @@ export class AlbumDetailComponent implements OnInit {
 
   constructor(
     private routerPath: Router,
-    private router: ActivatedRoute,
+    private router: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -39,6 +40,10 @@ export class AlbumDetailComponent implements OnInit {
 
   compartirAlbum(){
     this.routerPath.navigate([`/albumes/share/${this.album.id}/${this.userId}/${this.token}`])
+  }
+
+  comentarAlbum(){
+    this.routerPath.navigate([`/albumes/coment/${this.album.id}/${this.userId}/${this.token}`])
   }
 
 }

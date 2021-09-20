@@ -1,9 +1,11 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, CompartirAlbumSchema
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, CompartirAlbumSchema, AlbumComentario
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import sys
+from datetime import datetime
+import json
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
@@ -200,7 +202,7 @@ class VistaUsuario(Resource):
     
 
 class VistaCompartirCancion(Resource):
- 
+    @jwt_required()
     def post(self):
         id_cancion = request.json["id_cancion"]
         arrayUsuarios = request.json["lista_usuarios"]
@@ -232,7 +234,7 @@ class VistaCompartirCancion(Resource):
         return {"mensaje":"successes"},202
 
 class VistaCompartirAlbum(Resource):
-     
+    @jwt_required()
     def post(self):
         id_album = request.json["id_album"]
         arrayUsuarios = request.json["lista_usuarios"]
@@ -267,7 +269,38 @@ class VistaCompartirAlbum(Resource):
         return {"mensaje":"successes"},202     
 
 
+class VistaComentarioAlbum(Resource):
+    @jwt_required() 
+    def post(self):
+        try:
+            id_album = request.json["id_album"]
+            message = request.json["message"]
+            current_user = get_jwt_identity()
+            
 
-                    
+            nueva_comentario = AlbumComentario(comentario = message, id_album=id_album, usuario=current_user)
+            db.session.add(nueva_comentario)
+            db.session.commit()
+            return {"mensaje":"successes"},202     
+        
+        except Exception:
+                    e = sys.exc_info()[1]
+                    print(e.args[0])
+                    return {"mensaje":"Error", "error":e.args[0]}, 404
+
+class VistaTraerComentarioAlbum(Resource):
+    @jwt_required()
+    def get(self, id_album):
+        comentarios = AlbumComentario.query.filter( AlbumComentario.id_album==id_album).all()
+        commentsArray = []
+        if comentarios is None:
+            return {"mensaje":"successes", "comments":[]},202
+        else:
+            
+            for com in comentarios:
+                usuario = Usuario.query.filter(Usuario.id == AlbumComentario.usuario).first()
+                commentsArray.append({"album id":id_album ,"message":com.comentario,"name_user":usuario.nombre,"date":com.fecha.__str__()})
+            
+        return {"comments":commentsArray}, 202                
                     
            

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert2';
+import { AlbumService } from '../album.service';
+import { ToastrService } from 'ngx-toastr';
+import { Album } from '../album';
 
 @Component({
   selector: 'app-album-coments',
@@ -10,16 +14,35 @@ import swal from 'sweetalert2';
 })
 export class AlbumComentsComponent implements OnInit {
 
+  @Input() album: Album;
   public faEdit: any = faEdit;
   public faTrashAlt: any = faTrashAlt;
   public formComent: FormGroup;
+  albumId: number;
+  token: string;
 
-  constructor() { }
+  constructor(private albumService: AlbumService, private router: ActivatedRoute,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.formComent = new FormGroup({
       coment : new FormControl('', [Validators.maxLength(1000), Validators.minLength(5)])
     });
+    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+      this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+    }
+    else{
+      this.token = this.router.snapshot.params.userToken
+      this.albumId = this.router.snapshot.params.albumId
+      this.albumService.getAlbum(this.albumId)
+      .subscribe(album => {
+        this.album = album
+        this.formComent = this.formBuilder.group({
+        })
+      })
+    }
+
   }
 
   public deleteComent(): void {
@@ -66,23 +89,24 @@ export class AlbumComentsComponent implements OnInit {
       cancelButtonText: 'No!'
     }).then((result) => {
       if (result.isConfirmed) {
-        let toast = swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', swal.stopTimer)
-            toast.addEventListener('mouseleave', swal.resumeTimer)
-          }
-        });
-        toast.fire({
-          icon: 'success',
-          title: 'Comentario publicado!'
-        });
+        var comentario = this.formComent.get('coment')?.value
+
+        debugger;
+        this.albumService.comentarAlbum(this.album.id, comentario, this.token)
+        .subscribe(album => {
+          this.showSuccess()
+          this.formComent.reset()
+        })
       }
     });
+  }
+
+  showSuccess() {
+    this.toastr.success("Comentario publicado!");
+  }
+
+  showError(error: string){
+    this.toastr.error(error, "Error")
   }
 
 }

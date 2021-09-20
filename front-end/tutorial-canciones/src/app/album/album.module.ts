@@ -11,6 +11,7 @@ import { AppFooterModule } from '../app-footer/app-footer.module'
 import { AlbumShareComponent } from './album-share/album-share.component';
 import { AlbumComentsComponent } from './album-coments/album-coments.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ComentarioModule } from '../comentario/comentario.module';
 
 
 
@@ -18,7 +19,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
     declarations: [AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumShareComponent, AlbumComentsComponent],
   imports: [
-    CommonModule, ReactiveFormsModule, AppHeaderModule, AppFooterModule, FontAwesomeModule
+    CommonModule, ReactiveFormsModule, AppHeaderModule, AppFooterModule, FontAwesomeModule, ComentarioModule
   ],
   exports:[AlbumListComponent, AlbumDetailComponent, AlbumCreateComponent, AlbumEditComponent, AlbumJoinCancionComponent, AlbumShareComponent]
 })
