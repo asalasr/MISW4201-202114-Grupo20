@@ -73,4 +73,12 @@ export class AlbumService {
     return this.http.post<Album>(`${this.backUrl}/usuarios/lista`, {"lista": usuarios})
   }
 
+  comentarAlbum(albumId: number, comentario: string, token: string): Observable<Album>{
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post<Album>(`${this.backUrl}/album/comentarios`, {"id_album": albumId, "message": comentario}, {headers: headers})
+  }
+
 }

@@ -7,6 +7,7 @@
       <button *ngIf="album" type="button" class="btn btn-outline-info me-1 me-2" (click)="goToJoinCancion()" title="Agregar canción" ><i class="bi bi-plus" ></i><i class="bi bi-music-note"></i></button>
       <button *ngIf="album" type="button" class="btn btn-outline-danger me-1" (click)="eliminarAlbum()" title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
       <button *ngIf="album" type="button" class="btn btn-outline-info me-1 me-2" (click)="compartirAlbum()" title="Compartir álbum"><i class="bi bi-share"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-outline-info me-1 me-2" (click)="comentarAlbum()" title="Compartir álbum"><i class="bi bi-share"></i></button>
     </div>
   </div>
 
@@ -52,14 +53,7 @@
             </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12 mt-3 mb-2 ms-2">
-      <h5>Comentarios</h5>
-    </div>
-    <div class="col-12">
-      <app-comentario (userComment)="eliminarAlbum()" [album]="album"></app-comentario>
+      <app-album-coments  [album]="album"></app-album-coments>
     </div>
   </div>
 </div>
