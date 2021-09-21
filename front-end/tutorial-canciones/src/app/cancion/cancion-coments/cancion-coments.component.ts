@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component,EventEmitter, OnInit ,Input,Output} from '@angular/core';
+import { FormBuilder,FormControl, FormGroup, Validators } from '@angular/forms';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CancionService } from '../cancion.service';
+import { Cancion } from '../cancion';
 
 @Component({
   selector: 'app-cancion-coments',
@@ -10,17 +14,48 @@ import swal from 'sweetalert2';
 })
 export class CancionComentsComponent implements OnInit {
 
+  @Input() cancion: Cancion;
+  @Output() userComment = new EventEmitter();
+
   public faEdit: any = faEdit;
   public faTrashAlt: any = faTrashAlt;
   public formComent: FormGroup;
+  cancionId: number;
+  token: string;
 
-  constructor() {
+  constructor(private cancionService: CancionService, private router: ActivatedRoute,
+    private toastr: ToastrService,
+    private formBuilder: FormBuilder) {
     this.formComent = new FormGroup({
       coment: new FormControl('', [Validators.maxLength(1000), Validators.minLength(5)])
     });
   }
 
   ngOnInit(): void {
+    this.formComent = new FormGroup({
+      coment : new FormControl('', [Validators.maxLength(1000), Validators.minLength(5)])
+    });
+    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
+      this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+    }
+    else{
+      console.log("parametros de entrada")
+      console.log(this.router.snapshot.params)
+
+      this.token = this.router.snapshot.params.userToken
+      this.cancionId = this.router.snapshot.params.cancionId
+
+      console.log("la cancionid es:" + this.cancionId)
+      /*this.albumService.getAlbum(this.albumId)
+      .subscribe(album => {
+        this.album = album
+        this.formComent = this.formBuilder.group({
+        })
+      })*/
+    }
+  }
+  viewSectionComentario(){
+    this.userComment.emit(this.cancion.id)
   }
 
   public deleteComent(): void {
@@ -67,23 +102,22 @@ export class CancionComentsComponent implements OnInit {
       cancelButtonText: 'No!'
     }).then((result) => {
       if (result.isConfirmed) {
-        let toast = swal.mixin({
-          toast: true,
-          position: 'top-end',
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', swal.stopTimer)
-            toast.addEventListener('mouseleave', swal.resumeTimer)
-          }
-        });
-        toast.fire({
-          icon: 'success',
-          title: 'Comentario publicado!'
-        });
+        var comentario = this.formComent.get('coment')?.value
+
+        debugger;
+        this.cancionService.comentarCancion(this.cancion.id, comentario, this.token)
+        .subscribe(album => {
+          this.showSuccess()
+          this.formComent.reset()
+        })
       }
     });
   }
+  showSuccess() {
+    this.toastr.success("Comentario publicado!");
+  }
 
+  showError(error: string){
+    this.toastr.error(error, "Error")
+  }
 }
