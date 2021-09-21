@@ -59,6 +59,12 @@ class AlbumComentario(db.Model):
     id_album = db.Column(db.Integer, db.ForeignKey("album.id"))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     
+class CancionComentario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comentario = db.Column(db.String(50))
+    fecha = db.Column(db.DateTime, default=datetime.datetime.now)
+    id_cancion = db.Column(db.Integer, db.ForeignKey("cancion.id"))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class EnumADiccionario(fields.Field):
     def _serialize(self, value, attr, obj, **kwargs):

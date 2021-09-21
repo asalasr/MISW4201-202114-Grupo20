@@ -1,5 +1,5 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, CompartirAlbumSchema, AlbumComentario
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, CompartirAlbumSchema, AlbumComentario,CancionComentario
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
@@ -303,4 +303,21 @@ class VistaTraerComentarioAlbum(Resource):
             
         return {"comments":commentsArray}, 202                
                     
-           
+class VistaComentarioCancion(Resource):
+    @jwt_required() 
+    def post(self):
+        try:
+            id_cancion = request.json["id_cancion"]
+            message = request.json["message"]
+            current_user = get_jwt_identity()
+            
+
+            nueva_comentario = CancionComentario(comentario = message, id_cancion=id_cancion, usuario=current_user)
+            db.session.add(nueva_comentario)
+            db.session.commit()
+            return {"mensaje":"successes"},202     
+        
+        except Exception:
+                    e = sys.exc_info()[1]
+                    print(e.args[0])
+                    return {"mensaje":"Error", "error":e.args[0]}, 404
