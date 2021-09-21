@@ -3,14 +3,14 @@ pipeline {
     environment {
         HOME = "${WORKSPACE}"
         GIT_CREDENTIAL_ID = '67fc884e-63ed-47cc-8a49-e91b798c7178'
-        GIT_REPO = 'MISW4201-202114-Grupo00'
+        GIT_REPO = 'MISW4201-202114-Grupo20'
         GITHUB_TOKEN_ID = '782f4107-6a99-44c4-88ac-f6bd82b81b1d'
     }
     stages {
         stage('Checkout') { 
             steps {
                 scmSkip(deleteBuild: true, skipPattern:'.*\\[ci-skip\\].*')
-                git branch: 'main',  
+                git branch: 'develop',  
                 credentialsId: env.GITHUB_TOKEN_ID,
                 url: 'https://github.com/MISW-4102-ProcesosDeDesarrolloAgil/' + env.GIT_REPO
             }
@@ -30,8 +30,8 @@ pipeline {
                     sh('git config --global user.name "ci-isis2603"')
                     sh('git add ./reports/index.html')
                     sh('git commit -m "[ci-skip] GitInspector report added"')
-                    sh('git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} main')
-                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} main')
+                    sh('git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} develop')
+                    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/MISW-4102-ProcesosDeDesarrolloAgil/${GIT_REPO} develop')
                 }  
             }
         }
