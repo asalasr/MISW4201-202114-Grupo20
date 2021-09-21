@@ -7,12 +7,12 @@
             <div class="col-12 col-md-4">
                 <ul>
                     <li style="list-style:none;">
-                        <button (click)="saveComent()" type="button" class="btn btn-outline-success">
+                        <button *ngIf="album" (click)="saveComent()" type="button" class="btn btn-outline-success">
                             <fa-icon [icon]="faEdit"></fa-icon>
                         </button>
                     </li>
                     <li style="list-style:none;">
-                        <button (click)="deleteComent()" type="button" class="btn btn-outline-danger mt-3">
+                        <button *ngIf="album" (click)="deleteComent()" type="button" class="btn btn-outline-danger mt-3">
                             <fa-icon [icon]="faTrashAlt"></fa-icon>
                         </button>
                     </li>
@@ -23,11 +23,11 @@
     <div class="col-12 col-md-8">
         <div class="row">
             <div class="col-12">
-                <form [formGroup]="formComent">
-                    <textarea name="coment" id="coment" class="form-control" [class.is-invalid]="formComent.controls.coment.invalid" [class.is-valid]="!formComent.controls.coment.invalid && formComent.controls.coment.value != ''" formControlName="coment" placeholder="Coment..."></textarea>
+                <form  *ngIf="album"  [formGroup]="formComent">
+                    <textarea name="coment" rows="4" id="coment" class="form-control" [class.is-invalid]="formComent.controls.coment.invalid" [class.is-valid]="!formComent.controls.coment.invalid && formComent.controls.coment.value != ''" formControlName="coment" placeholder="Coment..."></textarea>
                 </form>
             </div>
-            <div class="col-12">
+            <div class="col-12"  *ngIf="album" >
                 <div class="row mt-4">
                     <div class="col-12">
                         <div class="card">
