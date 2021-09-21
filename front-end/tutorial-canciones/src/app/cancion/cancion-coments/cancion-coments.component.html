@@ -2,7 +2,7 @@
     <div class="col-12 col-md-4">
         <div class="row">
             <div class="col-12 col-md-8">
-                <h5>Comentarios</h5>
+              <h5>Comentarios</h5>
             </div>
             <div class="col-12 col-md-4">
                 <ul>
@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-12">
                 <form [formGroup]="formComent">
-                    <textarea name="coment" id="coment" class="form-control" [class.is-invalid]="formComent.controls.coment.invalid" [class.is-valid]="!formComent.controls.coment.invalid && formComent.controls.coment.value != ''" formControlName="coment" placeholder="Coment..."></textarea>
+                    <textarea name="coment" rows="4" id="coment" class="form-control" [class.is-invalid]="formComent.controls.coment.invalid" [class.is-valid]="!formComent.controls.coment.invalid && formComent.controls.coment.value != ''" formControlName="coment" placeholder="Coment..."></textarea>
                 </form>
             </div>
             <div class="col-12">
