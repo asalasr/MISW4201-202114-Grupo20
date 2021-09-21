@@ -15,6 +15,8 @@ import { Album } from '../album';
 export class AlbumComentsComponent implements OnInit {
 
   @Input() album: Album;
+  @Output() userComment = new EventEmitter();
+
   public faEdit: any = faEdit;
   public faTrashAlt: any = faTrashAlt;
   public formComent: FormGroup;
@@ -43,6 +45,10 @@ export class AlbumComentsComponent implements OnInit {
       })
     }
 
+  }
+
+  viewSectionComentario(){
+    this.userComment.emit(this.album.id)
   }
 
   public deleteComent(): void {
