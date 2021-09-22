@@ -58,6 +58,7 @@ class AlbumComentario(db.Model):
     fecha = db.Column(db.DateTime, default=datetime.datetime.now)
     id_album = db.Column(db.Integer, db.ForeignKey("album.id"))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+  
     
 class CancionComentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
