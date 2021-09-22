@@ -298,7 +298,7 @@ class VistaTraerComentarioAlbum(Resource):
         else:
             
             for com in comentarios:
-                usuario = Usuario.query.filter(Usuario.id == AlbumComentario.usuario).first()
+                usuario = Usuario.query.filter(Usuario.id == com.usuario).first()
                 commentsArray.append({"album id":id_album ,"message":com.comentario,"name_user":usuario.nombre,"date":com.fecha.__str__()})
             
         return {"comments":commentsArray}, 202                
@@ -321,3 +321,19 @@ class VistaComentarioCancion(Resource):
                     e = sys.exc_info()[1]
                     print(e.args[0])
                     return {"mensaje":"Error", "error":e.args[0]}, 404
+
+
+class VistaTraerComentarioCancion(Resource):
+    @jwt_required()
+    def get(self, id_cancion):
+        comentarios = CancionComentario.query.filter( CancionComentario.id_cancion==id_cancion).all()
+        commentsArray = []
+        if comentarios is None:
+            return {"mensaje":"successes", "comments":[]},202
+        else:
+            
+            for com in comentarios:
+                usuario = Usuario.query.filter(Usuario.id == com.usuario).first()
+                commentsArray.append({"cancion_id":id_cancion ,"message":com.comentario,"name_user":usuario.nombre,"date":com.fecha.__str__()})
+            
+        return {"comments":commentsArray}, 202                
