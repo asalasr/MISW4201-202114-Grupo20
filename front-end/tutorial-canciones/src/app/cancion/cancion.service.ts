@@ -73,4 +73,11 @@ export class CancionService {
     return this.http.post<Cancion>(`${this.backUrl}/cancion/comentarios`, {"id_cancion": cancionId, "message": comentario}, {headers: headers})
   }
 
+  getComments(cancionId: number, token: string): Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.get<any>(`${this.backUrl}/cancion/${cancionId}/comentarios`, {headers: headers})
+  }
+
 }

@@ -59,6 +59,7 @@ export class CancionListComponent implements OnInit {
     this.cancionService.getAlbumesCancion(cancion.id)
     .subscribe(albumes => {
       this.cancionSeleccionada.albumes = albumes
+      this.getComentarios(this.cancionSeleccionada.id)
       this.cancionSeleccionada.esCompartido = this.esCompartida(this.cancionSeleccionada.id)
     },
     error => {
@@ -110,4 +111,16 @@ export class CancionListComponent implements OnInit {
     }
     return false
   }
+
+  getComentarios(id: number):void{
+    this.cancionService.getComments(id, this.token)
+    .subscribe( comentarios => {
+      this.cancionSeleccionada.comentarios = comentarios['comments']
+    },
+    error => {
+      console.log(error)
+    })
+
+  }
+
 }

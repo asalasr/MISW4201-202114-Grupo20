@@ -20,7 +20,7 @@ export class CancionComentsComponent implements OnInit {
   public faEdit: any = faEdit;
   public faTrashAlt: any = faTrashAlt;
   public formComent: FormGroup;
-  cancionId: number;
+  //cancionId: number;
   token: string;
 
   constructor(private cancionService: CancionService, private router: ActivatedRoute,
@@ -32,6 +32,8 @@ export class CancionComentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("la cancionid selecionada:" + this.cancion)
+    console.log(this.cancion)
     this.formComent = new FormGroup({
       coment : new FormControl('', [Validators.maxLength(1000), Validators.minLength(5)])
     });
@@ -39,13 +41,9 @@ export class CancionComentsComponent implements OnInit {
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else{
-      console.log("parametros de entrada")
-      console.log(this.router.snapshot.params)
-
       this.token = this.router.snapshot.params.userToken
-      this.cancionId = this.router.snapshot.params.cancionId
+      //this.cancionId = this.router.snapshot.params.cancionId
 
-      console.log("la cancionid es:" + this.cancionId)
       /*this.albumService.getAlbum(this.albumId)
       .subscribe(album => {
         this.album = album
@@ -103,8 +101,6 @@ export class CancionComentsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         var comentario = this.formComent.get('coment')?.value
-
-        debugger;
         this.cancionService.comentarCancion(this.cancion.id, comentario, this.token)
         .subscribe(album => {
           this.showSuccess()
