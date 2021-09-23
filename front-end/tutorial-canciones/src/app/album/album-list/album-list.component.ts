@@ -87,7 +87,6 @@ export class AlbumListComponent implements OnInit {
   getComentarios(id: number):void{
     this.albumService.getComments(id, this.token)
     .subscribe( comentarios => {
-
       this.albumSeleccionado.comentarios = comentarios['comments']
     },
     error => {

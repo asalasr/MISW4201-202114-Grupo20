@@ -20,7 +20,7 @@ export class AlbumComentsComponent implements OnInit {
   public faEdit: any = faEdit;
   public faTrashAlt: any = faTrashAlt;
   public formComent: FormGroup;
-  albumId: number;
+  //albumId: number;
   token: string;
 
   constructor(private albumService: AlbumService, private router: ActivatedRoute,
@@ -36,13 +36,14 @@ export class AlbumComentsComponent implements OnInit {
     }
     else{
       this.token = this.router.snapshot.params.userToken
-      this.albumId = this.router.snapshot.params.albumId
+     // this.albumId = this.router.snapshot.params.albumId
     }
   }
 
 
   viewSectionComentario(){
     this.userComment.emit(this.album.id)
+
   }
 
   public deleteComent(): void {

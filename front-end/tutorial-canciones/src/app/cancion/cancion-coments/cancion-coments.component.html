@@ -27,32 +27,31 @@
                     <textarea name="coment" rows="4" id="coment" class="form-control" [class.is-invalid]="formComent.controls.coment.invalid" [class.is-valid]="!formComent.controls.coment.invalid && formComent.controls.coment.value != ''" formControlName="coment" placeholder="Coment..."></textarea>
                 </form>
             </div>
-            <div class="col-12">
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5>Realtime fetching date</h5>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, nesciunt deleniti
-                                    minus optio dolore doloremque, vero aut fugit, dolorum quam quae corrupti ipsum
-                                    saepe sit ullam suscipit? Labore, omnis ipsa.
-                                </p>
-                                <div class="row">
-                                    <div class="col-12 col-md-4">
-                                        <p class="text-primary">Anderson</p>
-                                    </div>
-                                    <div class="col-12 col-md-2">
-                                        <p class="text-muted">replied</p>
-                                    </div>
-                                    <div class="col-12 col-md-6">
-                                        <p class="text-dark">11-09-2021 5:38pm</p>
-                                    </div>
-                                </div>
+            <div *ngFor="let comment of cancion?.comentarios" >
+              <div class="row mt-4">
+                  <div class="col-12">
+                      <div class="card">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-2 col-md-2 col-lg-2">
+                                <img src="../../../assets/user_nick.png" width="50px" height="50px"/>
+                              </div>
+                              <div class="col-6 col-md-6 col-lg-6">
+                                  <h5>{{comment.name_user}}</h5>
+                              </div>
+                              <div class="col-4 col-md-4 col-lg-4">
+                                <i class="text-dark">{{comment.date | date }}</i>
+                              </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <div class="col-12 col-md-12 col-lg-12">
+                              <p class="text-muted"></p>
+                            </div>
+                            <p>{{comment.message}}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
 </div>
