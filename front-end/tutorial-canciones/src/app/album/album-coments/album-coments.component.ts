@@ -37,15 +37,9 @@ export class AlbumComentsComponent implements OnInit {
     else{
       this.token = this.router.snapshot.params.userToken
       this.albumId = this.router.snapshot.params.albumId
-      this.albumService.getAlbum(this.albumId)
-      .subscribe(album => {
-        this.album = album
-        this.formComent = this.formBuilder.group({
-        })
-      })
     }
-
   }
+
 
   viewSectionComentario(){
     this.userComment.emit(this.album.id)
@@ -96,8 +90,6 @@ export class AlbumComentsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         var comentario = this.formComent.get('coment')?.value
-
-        debugger;
         this.albumService.comentarAlbum(this.album.id, comentario, this.token)
         .subscribe(album => {
           this.showSuccess()

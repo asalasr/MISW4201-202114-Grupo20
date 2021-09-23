@@ -59,7 +59,6 @@ export class AlbumService {
 
 
   compatirAlbum(albumId: number, usuarios: [string], token: string): Observable<Album>{
-    debugger
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
@@ -74,11 +73,17 @@ export class AlbumService {
   }
 
   comentarAlbum(albumId: number, comentario: string, token: string): Observable<Album>{
-
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     })
     return this.http.post<Album>(`${this.backUrl}/album/comentarios`, {"id_album": albumId, "message": comentario}, {headers: headers})
+  }
+
+  getComments(albumId: number, token: string): Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.get<any>(`${this.backUrl}/album/${albumId}/comentarios`, {headers: headers})
   }
 
 }
