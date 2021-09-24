@@ -1,10 +1,10 @@
 import unittest
 import json
 from flaskr.app import app
-from flaskr.modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema, Compartida_cancion, Compartida_album, AlbumComentario
+from flaskr.modelos import db,  Usuario,  Album, AlbumComentario
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
-class test_Compartir(unittest.TestCase):
+class test_ComentarioALbum(unittest.TestCase):
 
     def setUp(self):
         self.app = app.test_client()
