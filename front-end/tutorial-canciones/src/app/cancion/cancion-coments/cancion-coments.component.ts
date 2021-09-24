@@ -56,6 +56,17 @@ export class CancionComentsComponent implements OnInit {
     this.userComment.emit(this.cancion.id)
   }
 
+  public getComentarios(id: number):void{
+    this.cancionService.getComments(id, this.token)
+    .subscribe( comentarios => {
+      this.cancion.comentarios = comentarios['comments']
+    },
+    error => {
+      console.log(error)
+    })
+
+  }
+
   public deleteComent(): void {
     swal.fire({
       title: '¿Estas seguro de eliminar este comentario?',
@@ -105,6 +116,7 @@ export class CancionComentsComponent implements OnInit {
         .subscribe(album => {
           this.showSuccess()
           this.formComent.reset()
+          this.getComentarios(this.cancion.id);
         })
       }
     });

@@ -40,6 +40,16 @@ export class AlbumComentsComponent implements OnInit {
     }
   }
 
+  public getComments() {
+    this.albumService.getComments(this.album.id, this.token).subscribe(
+      response => {
+        this.album.comentarios = response['comments'];
+      },
+      error => {
+        swal.fire("¡Error!", error, "error");
+      }
+    );
+  }
 
   viewSectionComentario(){
     this.userComment.emit(this.album.id)
@@ -95,6 +105,7 @@ export class AlbumComentsComponent implements OnInit {
         .subscribe(album => {
           this.showSuccess()
           this.formComent.reset()
+          this.getComments();
         })
       }
     });
