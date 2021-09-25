@@ -55,7 +55,7 @@ class Usuario(db.Model):
 
 class AlbumComentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    comentario = db.Column(db.String(50))
+    comentario = db.Column(db.String(1000))
     fecha = db.Column(db.DateTime, default=datetime.datetime.now)
     id_album = db.Column(db.Integer, db.ForeignKey("album.id"))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
@@ -63,7 +63,7 @@ class AlbumComentario(db.Model):
     
 class CancionComentario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    comentario = db.Column(db.String(50))
+    comentario = db.Column(db.String(1000))
     fecha = db.Column(db.DateTime, default=datetime.datetime.now)
     id_cancion = db.Column(db.Integer, db.ForeignKey("cancion.id"))
     usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
